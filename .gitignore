@@ -3,3 +3,9 @@ NanomsgRPC/bin
 NanomsgRPC/obj
 NanomsgRPC.API/bin
 NanomsgRPC.API/obj
+Test.API/bin
+Test.API/obj
+Test.Client/bin
+Test.Client/obj
+Test.Server/bin
+Test.Server/obj
