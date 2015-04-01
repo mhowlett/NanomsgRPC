@@ -4,20 +4,9 @@ namespace Test.API
 {
     public class Commands
     {
-        public static void Shutdown(INanoConnection c)
-        {
-            using (new NanoNetworkCommand.Request(c, Component.ComponentId, (byte) CommandIds.Shutdown))
-            {
-            }
-
-            using (new NanoNetworkCommand.Response(c))
-            {
-            }
-        }
-
         public static void SetMessage(INanoConnection c, int message)
         {
-            using (var request = new NanoNetworkCommand.Request(c, Component.ComponentId, (byte)CommandIds.Shutdown))
+            using (var request = new NanoNetworkCommand.Request(c, Component.ComponentId, (byte)CommandIds.SetNumber))
             {
                 request.BinaryWriter.Write(message);
             }
@@ -27,9 +16,9 @@ namespace Test.API
             }
         }
 
-        public static int SetMessage(INanoConnection c)
+        public static int GetNumber(INanoConnection c)
         {
-            using (new NanoNetworkCommand.Request(c, Component.ComponentId, (byte)CommandIds.Shutdown))
+            using (new NanoNetworkCommand.Request(c, Component.ComponentId, (byte) CommandIds.GetNumber))
             {
             }
 

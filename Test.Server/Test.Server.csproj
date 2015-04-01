@@ -42,6 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\AddNumbers.cs" />
+    <Compile Include="Commands\GetNumber.cs" />
+    <Compile Include="Commands\SetNumber.cs" />
+    <Compile Include="DataStore.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -56,6 +60,10 @@
     <ProjectReference Include="..\NanomsgRPC\NanomsgRPC.csproj">
       <Project>{242a2314-35bc-40b3-80ed-b3d24fd112e7}</Project>
       <Name>NanomsgRPC</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Test.API\Test.API.csproj">
+      <Project>{df5f46e9-c648-4104-8c08-5a822dc05c1a}</Project>
+      <Name>Test.API</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

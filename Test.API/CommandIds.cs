@@ -8,9 +8,8 @@ namespace Test.API
 {
     public enum CommandIds : byte
     {
-        Shutdown = 1,
-        SetMessage = 2,
-        GetMessage = 3,
-        AddNumbers = 4
+        SetNumber = 1,
+        GetNumber = 2,
+        AddNumbers = 3
     }
 }
