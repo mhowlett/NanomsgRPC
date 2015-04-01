@@ -6,8 +6,7 @@ utilizes NNanomsg for robust message delivery.
 The API is straight forward to use. It doesn't impose any particular
 serialization method on you, but you specify message data using 
 BinaryReaders and BinaryWriters so it's really easy to use just these
-(and there is some overhead in providing this interface, so it's kind
-of wasted if you don't take advantage of it!).
+directly.
  
 On the client side, an example method implementation is as follows:
 
@@ -36,7 +35,7 @@ Some things to note:
    you attempt to call a command intended for one component using a connection to a 
    different one.
 
-On the client side, you first set everything up:
+On the server side, first set everything up:
 
     var handlers = new Dictionary<byte, NanoNetworkListener.NetworkHandlerDelegate>
     {
@@ -60,4 +59,7 @@ Then enter the main event loop:
 
 Some things to note:
 
-[work in progress, more coming soone!]
+1. NanoNetworkListener supports listening on multiple ports at once. Check out
+   the code for more detauls
+2. Commands are not handled concurrently, so there is no need to worry about
+   threading issues.
