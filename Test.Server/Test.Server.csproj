@@ -48,6 +48,16 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NanomsgRPC.API\NanomsgRPC.API.csproj">
+      <Project>{bdc3f0f7-fcdd-4222-809e-c27747956cd2}</Project>
+      <Name>NanomsgRPC.API</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NanomsgRPC\NanomsgRPC.csproj">
+      <Project>{242a2314-35bc-40b3-80ed-b3d24fd112e7}</Project>
+      <Name>NanomsgRPC</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

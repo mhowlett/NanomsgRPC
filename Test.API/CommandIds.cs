@@ -10,6 +10,7 @@ namespace Test.API
     {
         Shutdown = 1,
         SetMessage = 2,
-        GetMessage = 3
+        GetMessage = 3,
+        AddNumbers = 4
     }
 }
