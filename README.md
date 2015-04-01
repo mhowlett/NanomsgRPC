@@ -60,6 +60,6 @@ Then enter the main event loop:
 Some things to note:
 
 1. NanoNetworkListener supports listening on multiple ports at once. Check out
-   the code for more detauls
+   the code for more details
 2. Commands are not handled concurrently, so there is no need to worry about
    threading issues.
