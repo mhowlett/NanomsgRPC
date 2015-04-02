@@ -3,10 +3,10 @@
 This is lightweight remote procedure call (RPC) framework for .NET that
 utilizes NNanomsg for robust message delivery.
 
-The API is straight forward to use. It doesn't impose any fancy
-serialization method on you - command data is specified using 
+The API is straight forward to use. Message data is specified using 
 BinaryReaders and BinaryWriters. Usually it's really easy to 
-just use these directly.
+just use these directly, though you can use any serialization method
+you like.
  
 On the client side, an example method implementation is as follows:
 
