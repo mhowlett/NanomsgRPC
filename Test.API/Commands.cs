@@ -6,7 +6,7 @@ namespace Test.API
     {
         public static void SetMessage(INanoConnection c, int message)
         {
-            using (var request = new NanoNetworkCommand.Request(c, Component.ComponentId, (byte)CommandIds.SetNumber))
+            using (var request = new NanoNetworkCommand.Request(c, Interface.InterfaceId, (byte)CommandIds.SetNumber))
             {
                 request.BinaryWriter.Write(message);
             }
@@ -18,7 +18,7 @@ namespace Test.API
 
         public static int GetNumber(INanoConnection c)
         {
-            using (new NanoNetworkCommand.Request(c, Component.ComponentId, (byte) CommandIds.GetNumber))
+            using (new NanoNetworkCommand.Request(c, Interface.InterfaceId, (byte)CommandIds.GetNumber))
             {
             }
 
@@ -30,7 +30,7 @@ namespace Test.API
 
         public static double AddNumbers(INanoConnection c, double a, double b)
         {
-            using (var request = new NanoNetworkCommand.Request(c, Component.ComponentId, (byte)CommandIds.AddNumbers))
+            using (var request = new NanoNetworkCommand.Request(c, Interface.InterfaceId, (byte)CommandIds.AddNumbers))
             {
                 request.BinaryWriter.Write(a);
                 request.BinaryWriter.Write(b);

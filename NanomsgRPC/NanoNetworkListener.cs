@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Runtime.ExceptionServices;
@@ -158,16 +159,18 @@ namespace NanomsgRPC
         }
 
         public static void SetupServerSockets(
-            List<int> ports,
             Dictionary<int, Dictionary<byte, NetworkHandlerDelegate>> handlers,
-            Dictionary<int, byte> componentIds,
+            Dictionary<int, byte> interfaceIds,
             Dictionary<int, object> debug_commandIdTypes,
             TimeSpan commsTimeout,
             LogMessageDelegate logMessage)
         {
+            var ports = handlers.Keys.ToList();
+            // todo: assert all three dictionarys specify same port numbers.
+
             _listener.ReceivedMessage += delegate(int s)
                 {
-                    byte component = 255;
+                    byte interfaceId = 255;
                     byte command = 255;
                     int port = -1;
 
@@ -188,13 +191,13 @@ namespace NanomsgRPC
                         using (var mso = new MemoryStream())
                         using (var bw = new BinaryWriter(mso))
                         {
-                            component = br.ReadByte();
+                            interfaceId = br.ReadByte();
                             command = br.ReadByte();
                             port = _socketPorts[s];
-                            if (componentIds[port] != component)
+                            if (interfaceIds[port] != interfaceId)
                             {
-                                throw new Exception("Component with id " + componentIds[port] +
-                                                    " errantly received a command for component " + component);
+                                throw new Exception("Component with id " + interfaceIds[port] +
+                                                    " errantly received a command for component " + interfaceId);
                             }
                             if (debug_commandIdTypes[port] != null)
                             {
@@ -228,7 +231,7 @@ namespace NanomsgRPC
                     }
                     catch (Exception e)
                     {
-                        logMessage(TraceLevel.Error, "Error handling command [component id: " + component + "] [command id: " + command + "] [port " + port + "]: " + Utils.UnrolledExceptionMessage(e));
+                        logMessage(TraceLevel.Error, "Error handling command [component id: " + interfaceId + "] [command id: " + command + "] [port " + port + "]: " + Utils.UnrolledExceptionMessage(e));
                     }
                 };
 

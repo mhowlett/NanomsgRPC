@@ -26,9 +26,11 @@ namespace Test.Server
             int port = int.Parse(ConfigurationSettings.AppSettings["port"]);
 
             NanoNetworkListener.SetupServerSockets(
-                new List<int> { port },
+                // Command handlers [vs port number]
                 new Dictionary<int, Dictionary<byte, NanoNetworkListener.NetworkHandlerDelegate>> { { port, handlers } },
+                // Interface ids [vs port number]
                 new Dictionary<int, byte> { { port, 0 } },
+                // Command ids enum [vs port number]. note this is required for logging only.
                 new Dictionary<int, object> { { port, typeof(CommandIds) } },
                 TimeSpan.FromSeconds(int.Parse(ConfigurationSettings.AppSettings["connection-timeout-seconds"])),
                 LogMessage

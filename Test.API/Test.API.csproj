@@ -42,7 +42,7 @@
   <ItemGroup>
     <Compile Include="CommandIds.cs" />
     <Compile Include="Commands.cs" />
-    <Compile Include="ComponentId.cs" />
+    <Compile Include="InterfaceId.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

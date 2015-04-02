@@ -5,8 +5,8 @@ using System.Text;
 
 namespace Test.API
 {
-    public static class Component
+    public static class Interface
     {
-        public static byte ComponentId = 0;
+        public static byte InterfaceId = 0;
     }
 }

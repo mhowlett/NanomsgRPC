@@ -15,12 +15,12 @@ namespace NanomsgRPC.API
 
         public class Request : IDisposable
         {
-            public Request(INanoConnection c, byte componentId, byte commandId)
+            public Request(INanoConnection c, byte interfaceId, byte commandId)
             {
                 _connection = c;
                 MemoryStream = new MemoryStream();
                 BinaryWriter = new BinaryWriter(MemoryStream);
-                BinaryWriter.Write(componentId);
+                BinaryWriter.Write(interfaceId);
                 BinaryWriter.Write(commandId);
             }
 
