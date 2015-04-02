@@ -3,10 +3,9 @@
 This is lightweight remote procedure call (RPC) framework for .NET that
 utilizes NNanomsg for robust message delivery.
 
-The API is straight forward to use. Message data is specified using 
-BinaryReaders and BinaryWriters. Usually it's really easy to 
-just use these directly, though you can use any serialization method
-you like.
+The API is straight forward to use - message data is specified via
+BinaryReaders and BinaryWriters. Usually it's really easy to just use
+these directly, though you can use any serialization method you like.
  
 On the client side, an example method implementation is as follows:
 
@@ -44,7 +43,7 @@ On the server side, the command AddNumbers might be implemented as follows:
         writer.Write(a + b);
     }
 
-To set the server listing, first set everything up:
+To set the server listening, first set everything up:
 
     var handlers = new Dictionary<byte, NanoNetworkListener.NetworkHandlerDelegate>
     {
