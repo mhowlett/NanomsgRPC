@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Text;
 
 namespace NanomsgRPC.API.Utils
 {
@@ -12,6 +13,24 @@ namespace NanomsgRPC.API.Utils
                 return null;
             }
             return reader.ReadString();
+        }
+
+        private static readonly UTF8Encoding Encoding = new UTF8Encoding();
+
+        /// <summary>
+        ///     Refer to WriteInteroperableString.
+        /// </summary>
+        public static string ReadInteroprableString(this BinaryReader reader)
+        {
+            byte isNull = reader.ReadByte();
+            if (isNull == 0)
+            {
+                return null;
+            }
+
+            var length = reader.ReadInt32();
+            var bytes = reader.ReadBytes(length);
+            return Encoding.GetString(bytes);
         }
     }
 }
