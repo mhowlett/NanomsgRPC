@@ -18,7 +18,7 @@ namespace NanomsgRPC.API.Utils
         private static readonly UTF8Encoding Encoding = new UTF8Encoding();
 
         /// <summary>
-        ///     Refer to WriteInteroperableString.
+        ///     Refer to WriteInteroperableString summary.
         /// </summary>
         public static string ReadInteroprableString(this BinaryReader reader)
         {

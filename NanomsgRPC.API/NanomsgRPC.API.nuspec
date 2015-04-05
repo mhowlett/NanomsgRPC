@@ -2,13 +2,14 @@
 <package >
   <metadata>
     <id>NanomsgRPC.API</id>
-    <version>0.1.2</version>
+    <version>0.1.3</version>
     <title>NanomsgRPC.API</title>
     <authors>math</authors>
     <owners>math</owners>
+    <projectUrl>https://github.com/mhowlett/NanomsgRPC</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A lightweight RPC framework for .NET built on nanomsg (client side library)</description>
-    <releaseNotes>References NNanomsg 0.5.1 which can target aspnet50. Note that nanomsg itself is beta quality. You will need to reference the NanomsgRPC package in your server component. Refer to the website for example usage. Shoudl be coupled with v0.1.1 of NanomsgRPC - just added utility function to this version.</releaseNotes>
+    <releaseNotes>References NNanomsg 0.5.1 which can target aspnet50. Note that nanomsg itself is beta quality. You will need to reference the NanomsgRPC package in your server component. Refer to the website for example usage. Should be coupled with v0.1.1 of NanomsgRPC. Some improvements to connection pooling in this version.</releaseNotes>
     <copyright>Copyright 2015</copyright>
     <tags>nanomsg nnanomsg nanomsgrpc network zeromq RPC</tags>
     <dependencies>

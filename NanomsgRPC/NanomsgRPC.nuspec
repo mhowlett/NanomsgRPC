@@ -6,6 +6,7 @@
     <title>NanomsgRPC</title>
     <authors>math</authors>
     <owners>math</owners>
+    <projectUrl>https://github.com/mhowlett/NanomsgRPC</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>A lightweight RPC framework for .NET built on nanomsg (server side library)</description>
     <releaseNotes>References NNanomsg 0.5.1 which can target aspnet50. You will probably want to reference the NanomsgRPC.API package client side. Refer to the website for example usage. Note that nanomsg itself is beta quality.</releaseNotes>

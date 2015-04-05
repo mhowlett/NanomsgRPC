@@ -10,31 +10,30 @@ namespace NanomsgRPC.API
         private readonly string _hostConfigurationName;
         private readonly string _connectionPoolSizeConfigurationName;
         private readonly string _connectionPoolTimeoutConfigurationName;
+        private readonly string _maxWaitForAvailableConnectionMillisecondsName;
 
         public NanoConnectionPool_FromConfig(
             string connectionTypeName,
             string portConfigurationName,
             string hostConfigurationName,
             string connectionPoolSizeConfigurationName,
-            string connectionPoolTimeoutConfigurationName)
+            string connectionPoolTimeoutConfigurationName,
+            string maxWaitForAvailableConnectionMillisecondsName)
         {
             _connectionTypeName = connectionTypeName;
             _portConfigurationName = portConfigurationName;
             _hostConfigurationName = hostConfigurationName;
             _connectionPoolSizeConfigurationName = connectionPoolSizeConfigurationName;
             _connectionPoolTimeoutConfigurationName = connectionPoolTimeoutConfigurationName;
+            _maxWaitForAvailableConnectionMillisecondsName = maxWaitForAvailableConnectionMillisecondsName;
         }
 
         public override string Host
         {
             get
             {
-                string result = System.Web.Configuration.WebConfigurationManager.AppSettings[_hostConfigurationName];
-
-                if (result == null)
-                {
-                    result = ConfigurationSettings.AppSettings[_hostConfigurationName];
-                }
+                string result = System.Web.Configuration.WebConfigurationManager.AppSettings[_hostConfigurationName] 
+                    ?? ConfigurationSettings.AppSettings[_hostConfigurationName];
 
                 return result;
             }
@@ -44,12 +43,8 @@ namespace NanomsgRPC.API
         {
             get
             {
-                string result = System.Web.Configuration.WebConfigurationManager.AppSettings[_portConfigurationName];
-
-                if (result == null)
-                {
-                    result = ConfigurationSettings.AppSettings[_portConfigurationName];
-                }
+                string result = System.Web.Configuration.WebConfigurationManager.AppSettings[_portConfigurationName] 
+                    ?? ConfigurationSettings.AppSettings[_portConfigurationName];
 
                 return Convert.ToInt32(result);
             }
@@ -59,20 +54,20 @@ namespace NanomsgRPC.API
         {
             get
             {
-                string result =
-                  System.Web.Configuration.WebConfigurationManager.AppSettings[_connectionPoolSizeConfigurationName];
-
-                if (result == null)
+                if (_connectionPoolSizeConfigurationName == null)
                 {
-                    result = ConfigurationSettings.AppSettings[_connectionPoolSizeConfigurationName];
+                    return 1;
                 }
+
+                string result = System.Web.Configuration.WebConfigurationManager.AppSettings[_connectionPoolSizeConfigurationName]
+                  ?? ConfigurationSettings.AppSettings[_connectionPoolSizeConfigurationName];
 
                 if (result != null)
                 {
                     return Convert.ToInt32(result);
                 }
 
-                return 0;
+                return 1;
             }
         }
 
@@ -85,12 +80,13 @@ namespace NanomsgRPC.API
         {
             get
             {
-                string result = System.Web.Configuration.WebConfigurationManager.AppSettings[_connectionPoolTimeoutConfigurationName];
-
-                if (result == null)
+                if (_connectionPoolTimeoutConfigurationName == null)
                 {
-                    result = ConfigurationSettings.AppSettings[_connectionPoolTimeoutConfigurationName];
+                    return TimeSpan.FromSeconds(30);
                 }
+
+                string result = System.Web.Configuration.WebConfigurationManager.AppSettings[_connectionPoolTimeoutConfigurationName]
+                    ?? ConfigurationSettings.AppSettings[_connectionPoolTimeoutConfigurationName];
 
                 if (result == null)
                 {
@@ -98,6 +94,27 @@ namespace NanomsgRPC.API
                 }
 
                 return TimeSpan.FromSeconds(int.Parse(result));
+            }
+        }
+
+        public override TimeSpan MaxWaitForAvailableConnection
+        {
+            get
+            {
+                if (_maxWaitForAvailableConnectionMillisecondsName == null)
+                {
+                    return TimeSpan.FromSeconds(1);
+                }
+
+                string result = System.Web.Configuration.WebConfigurationManager.AppSettings[_maxWaitForAvailableConnectionMillisecondsName]
+                    ?? ConfigurationSettings.AppSettings[_maxWaitForAvailableConnectionMillisecondsName];
+
+                if (result == null)
+                {
+                    return TimeSpan.FromSeconds(1);
+                }
+
+                return TimeSpan.FromMilliseconds(int.Parse(result));                
             }
         }
     }

@@ -11,7 +11,8 @@ namespace Test.Client
             //   - NanoConnection_Simple would have sufficed.
             TestConnectionPool.Instance = new NanoConnectionPool_FromConfig(
                 "TestComponent", "test-port", "test-host",
-                "test-connection-pool-size", "test-connection-timeout-seconds");
+                "test-connection-pool-size", "test-connection-timeout-seconds",
+                null);
             TestConnectionPool.Instance.OpenConnections();
 
             using (var c = TestConnectionPool.Instance.AcquireConnection())

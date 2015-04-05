@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading;
 using NNanomsg;
 
@@ -18,15 +17,23 @@ namespace NanomsgRPC.API
 
         public abstract TimeSpan ConnectionTimeout { get; }
 
-        public void CloseOpenConnection(INanoConnection connection)
+        public abstract TimeSpan MaxWaitForAvailableConnection { get; }
+
+        public void CloseOpenAllConnections()
         {
-            Debug.Assert(connection is NanoConnection);
             foreach (var c in _clients)
             {
                 NN.Close(c.Socket);
                 c.Socket = NN.Socket(Domain.SP, Protocol.REQ);
                 NN.Connect(c.Socket, c.Address);
             }
+        }
+
+        public void CloseOpenConnection(NanoConnection connection)
+        {
+            NN.Close(connection.Socket);
+            connection.Socket = NN.Socket(Domain.SP, Protocol.REQ);
+            NN.Connect(connection.Socket, connection.Address);
         }
 
         private Queue<NanoConnection> _clients;
@@ -53,7 +60,7 @@ namespace NanomsgRPC.API
         public NanoConnection AcquireConnection()
         {
             const int loopWaitMilliseconds = 20;
-            const int loopWaitMaxMilliseconds = 1000;
+            int loopWaitMaxMilliseconds = (int)MaxWaitForAvailableConnection.TotalMilliseconds;
             int loopMax = loopWaitMaxMilliseconds / loopWaitMilliseconds;
 
             while (true)

@@ -9,19 +9,22 @@ namespace NanomsgRPC.API
         private readonly int _connectionPoolSize;
         private readonly string _connectionTypeName;
         private readonly TimeSpan _connectionTimeout;
+        private readonly TimeSpan _maxWaitForAvailableConnection;
 
         public NanoConnectionPool_FromParameters(
             string host,
             int port,
             int connectionPoolSize,
             string connectionTypeName,
-            TimeSpan connectionTimeout)
+            TimeSpan connectionTimeout,
+            TimeSpan maxWaitForAvailableConnection)
         {
             _host = host;
             _port = port;
             _connectionPoolSize = connectionPoolSize;
             _connectionTypeName = connectionTypeName;
             _connectionTimeout = connectionTimeout;
+            _maxWaitForAvailableConnection = maxWaitForAvailableConnection;
         }
 
         public override string Host
@@ -47,6 +50,11 @@ namespace NanomsgRPC.API
         public override TimeSpan ConnectionTimeout
         {
             get { return _connectionTimeout; }
+        }
+
+        public override TimeSpan MaxWaitForAvailableConnection
+        {
+            get { return _maxWaitForAvailableConnection; }
         }
     }
 }
