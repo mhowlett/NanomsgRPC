@@ -5,7 +5,7 @@ using NNanomsg;
 
 namespace NanomsgRPC.API
 {
-    public abstract class NanoConnectionPool
+    public abstract class NanoConnectionPool : IDisposable
     {
         public abstract string Host { get; }
 
@@ -50,9 +50,21 @@ namespace NanomsgRPC.API
             for (int i = 0; i < ConnectionPoolSize; ++i)
             {
                 string address = "tcp://" + Host + ":" + Port;
+                
                 int s = NN.Socket(Domain.SP, Protocol.REQ);
+                if (s == -1)
+                {
+                    Dispose();
+                    throw new Exception("failed to create socket for: " + address);
+                }
 
-                NN.Connect(s, address);
+                var ret = NN.Connect(s, address);
+                if (ret < 0)
+                {
+                    Dispose();
+                    throw new Exception("failed to open connection to: " + address);
+                }
+
                 _clients.Enqueue(new NanoConnection(s, this, address));
             }
         }
@@ -90,5 +102,16 @@ namespace NanomsgRPC.API
             }
         }
 
+        public void Dispose()
+        {
+            foreach (var c in _clients)
+            {
+                try
+                {
+                    NN.Close(c.Socket);
+                }
+                catch { }
+            }
+        }
     }
 }
