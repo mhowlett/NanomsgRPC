@@ -19,21 +19,36 @@ namespace NanomsgRPC.API
 
         public abstract TimeSpan MaxWaitForAvailableConnection { get; }
 
+        private void CreateAndConnectSocket(NanoConnection c)
+        {
+            c.Socket = NN.Socket(Domain.SP, Protocol.REQ);
+            if (c.Socket < 0)
+            {
+                Dispose();
+                throw new Exception("failed to create SP/REQ socket.");
+            }
+
+            int ret = NN.Connect(c.Socket, c.Address);
+            if (ret < 0)
+            {
+                Dispose();
+                throw new Exception("failed to open connection to: " + c.Address);
+            }
+        }
+
         public void CloseOpenAllConnections()
         {
             foreach (var c in _clients)
             {
-                NN.Close(c.Socket);
-                c.Socket = NN.Socket(Domain.SP, Protocol.REQ);
-                NN.Connect(c.Socket, c.Address);
+                NN.Close(c.Socket); // could return -1 (error). todo: handle better.
+                CreateAndConnectSocket(c);
             }
         }
 
-        public void CloseOpenConnection(NanoConnection connection)
+        public void CloseOpenConnection(NanoConnection c)
         {
-            NN.Close(connection.Socket);
-            connection.Socket = NN.Socket(Domain.SP, Protocol.REQ);
-            NN.Connect(connection.Socket, connection.Address);
+            NN.Close(c.Socket); // could return -1 (error). todo: handle better.
+            CreateAndConnectSocket(c);
         }
 
         private Queue<NanoConnection> _clients;
@@ -50,22 +65,9 @@ namespace NanomsgRPC.API
             for (int i = 0; i < ConnectionPoolSize; ++i)
             {
                 string address = "tcp://" + Host + ":" + Port;
-                
-                int s = NN.Socket(Domain.SP, Protocol.REQ);
-                if (s == -1)
-                {
-                    Dispose();
-                    throw new Exception("failed to create socket for: " + address);
-                }
-
-                var ret = NN.Connect(s, address);
-                if (ret < 0)
-                {
-                    Dispose();
-                    throw new Exception("failed to open connection to: " + address);
-                }
-
-                _clients.Enqueue(new NanoConnection(s, this, address));
+                var c = new NanoConnection(-1, this, address);
+                CreateAndConnectSocket(c);
+                _clients.Enqueue(c);
             }
         }
 
