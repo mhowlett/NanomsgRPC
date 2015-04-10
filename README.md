@@ -3,10 +3,11 @@
 This is lightweight remote procedure call (RPC) framework for .NET that
 utilizes NNanomsg for robust message delivery.
 
-The API is straight forward to use - message data is specified via
-BinaryReaders and BinaryWriters. Usually it's really easy to just use
-these directly, though you can use any serialization method you like.
- 
+There is no IDL. You specify Request/Response data using BinaryReaders
+and BinaryWriters. In practice it is straightforward to do this manually,
+though you could pack your data using something like protobuf if you 
+want.
+
 On the client side, an example method implementation is as follows:
 
     public static double AddNumbers(INanoConnection c, double a, double b)
@@ -33,6 +34,7 @@ Some things to note:
    systems where you have more than one RPC interface - An exception will be thrown if
    you attempt to call a command intended for one interface (component) using a connection
    you also might have open to a different one.
+4. There is no support for async calls.
 
 On the server side, the command AddNumbers might be implemented as follows:
 
