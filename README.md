@@ -3,10 +3,10 @@
 This is lightweight remote procedure call (RPC) framework for .NET that
 utilizes NNanomsg for robust message delivery.
 
-There is no IDL. You specify Request/Response data using BinaryReaders
-and BinaryWriters. In practice it is straightforward to do this manually,
-though you could pack your data using something like protobuf if you 
-want.
+Request/Response data is specified using BinaryReader/Writers. In 
+practice it is straightforward to do this manually, though you 
+could pack your data using something like protobuf if you want.
+There is no IDL.
 
 On the client side, an example method implementation is as follows:
 
